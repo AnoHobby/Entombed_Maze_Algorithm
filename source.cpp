@@ -1,8 +1,6 @@
 #include <random>
 #include <iostream>
 #include <bitset>
-#include <algorithm>
-#include <numeric>
 #include <deque>
 class Random {
 private:
@@ -47,7 +45,6 @@ auto generateRow(std::deque<int8_t > &lastrows) {
 		if (clip)sum += clip&1;
 		else return;
 	}
-	//idea:if (std::ranges::find(history, 0) != history.end())return; 
 	count = 0;
 	if (8 < lastrows.size())
 		count = *(lastrows.rbegin()+8);
@@ -61,7 +58,7 @@ int main() {
 		generateRow(a);
 		auto bit = std::bitset<8>(a.back());
 		for (auto i = 0; i<bit.size();++i) {
-			std::cout <<(bit[i]?"¡":" ");
+			std::cout <<(bit[i]?"â– ":"â–¡");
 		}
 		std::cout << std::endl;
 	}
