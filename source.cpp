@@ -1,6 +1,5 @@
 #include <random>
 #include <iostream>
-#include <unordered_map>
 #include <bitset>
 #include <algorithm>
 #include <numeric>
@@ -28,38 +27,18 @@ auto generateRow(std::vector<int> &lastrows) {
 	auto newrow = 0;
 	for (auto i = 7; 0 <= i; --i) {
 		bool newBit;
-		const auto key = (lasttwo << 3) | ((lastlowpadded >> i) & 0b111) ;
-		const std::unordered_map<std::bitset<5>, bool> data = {
-			{0b00000, 1 },
-			{0b00001, 1 },
-			{0b00010, 1 },
-			{0b00100, 0 },
-			{0b00101, 0 },
-			{0b01000 , 1 },
-			{0b01001 , 1 },
-			{0b01010 , 1 },
-			{0b01011 , 1 },
-			{0b01101 , 0 },
-			{0b01110 , 0 },
-			{0b01111 , 0 },
-			{0b10000 , 1 },
-			{0b10001 , 1 },
-			{0b10010 , 1 },
-			{0b10100 , 0 },
-			{0b10101 , 0 },
-			{0b10110 , 0 },
-			{0b10111 , 0 },
-			{0b11001 , 0 },
-			{0b11010 , 1 },
-			{0b11101 , 0 },
-			{0b11110 , 0 },
-			{0b11111 , 0 },
-		};
-		if (data.contains(key)) {
-			newBit = data.at(key);
-		}
+		const std::bitset<5> key = (lasttwo << 3) | ((lastlowpadded >> i) & 0b111) ;
+		bool rand = false;
+		if (!key[2] && (
+			!(key[1] || key[3])
+			||
+			!(key[4]) && (key[3])
+			||
+			!(key[0]) && (key[1])
+			))newBit = 1;
+		else if ((key[2] && ((key >> 1) != 0b0011) && (key << 1) != 0b11000) || key == 0b11001)newBit=0;
 		else {
-			newBit = Random::getInstance().get(0, 1);
+			newBit = Random::getInstance().get(0,1);
 		}
 		newrow = (newrow << 1) | newBit;
 		lasttwo = ((lasttwo << 1) | newBit) & 0b11;
@@ -73,7 +52,7 @@ auto generateRow(std::vector<int> &lastrows) {
 	if (std::ranges::find(history, 0) == history.end() && std::ranges::all_of(history, [](auto i) {
 		return !(i & 0x80);
 		})) {
-		lastrows.back() = 0;//back=èåèéÆ
+		lastrows.back() = 0;
 	}
 	history.clear();
 	std::for_each_n(lastrows.rbegin(), 7, [&history](int value) {
@@ -99,13 +78,6 @@ int main() {
 		}
 		std::cout << std::endl;
 	}
+
 	return EXIT_SUCCESS;
 }
-
-
-
-
-
-
-
-
