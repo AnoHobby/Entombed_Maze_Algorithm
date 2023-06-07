@@ -28,7 +28,6 @@ auto generateRow(std::vector<int> &lastrows) {
 	for (auto i = 7; 0 <= i; --i) {
 		bool newBit;
 		const std::bitset<5> key = (lasttwo << 3) | ((lastlowpadded >> i) & 0b111) ;
-		bool rand = false;
 		if (!key[2] && (
 			!(key[1] || key[3])
 			||
@@ -74,7 +73,7 @@ int main() {
 		generateRow(a);
 		auto bit = std::bitset<8>(a.back());
 		for (auto i = 0; i<bit.size();++i) {
-			std::cout <<(bit[i]?"¡":" ");
+			std::cout <<(bit[i]?"ÂÂ¡":"ÂÂ ");
 		}
 		std::cout << std::endl;
 	}
