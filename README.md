@@ -1,1 +1,1 @@
-# entombedMazeAlgorithm
+# EntombedMazeAlgorithm
